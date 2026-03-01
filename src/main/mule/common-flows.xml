@@ -12,41 +12,16 @@ http://www.mulesoft.org/schema/mule/crypto http://www.mulesoft.org/schema/mule/c
 	<sub-flow name="processApiCall" doc:id="3ed87fdf-9a48-46a8-8c2e-4f2a4a66e138" >
 		<set-variable value="#[now()]" doc:name="start_time" doc:id="a67cd00e-e3e1-45bf-8f20-848cf1ed1da6" variableName="start_time"/>
 		<try doc:name="Try" doc:id="f5cf6cb7-c3a3-4646-b90a-280c4f454e4e" >
-			<http:request method="#[vars.inputParams.method]" doc:name="processAPIRequest" doc:id="750a2ff9-b064-4303-8f45-6f71cc70f130" config-ref="process_request_configuration" path="#[dw::core::URL::encodeURI(dw::core::URL::decodeURI(write(vars.inputParams.path,'application/java')))]" outputMimeType="application/json">
+			<http:request method="#[vars.requestParams.method]" doc:name="processAPIRequest" doc:id="750a2ff9-b064-4303-8f45-6f71cc70f130" config-ref="process_request_configuration" path="#[vars.requestParams.path]" outputMimeType="application/json">
 			<reconnect frequency="${reconnection.freq}" count="${reconnection.attempts}" />
-				<http:body><![CDATA[#[vars.reqPayload]]]></http:body>
+				<http:body><![CDATA[#[vars.requestPayload]]]></http:body>
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"client_secret" : p('http.process.request.process_client_secret'),
+	"client_secret" : vars.inputParams.client_secret,
 	"X-Correlation-Id" : vars.correlationId,
-	"client_id" : p('http.process.request.process_client_id'),
-	"OAuth": vars.inputParams.oauth,
-	"siteId":vars.angularSiteId,
-	"lastSession": vars.lastSession,
-	"baseSiteId": vars.baseSiteId default "",
-	("regToken" : vars.regToken) if(vars.inputParams.path == "accounts/registration")
+	"client_id" : vars.inputParams.client_id,
 }]]]></http:headers>
-				<http:uri-params ><![CDATA[#[%dw 2.0
-output application/java
-fun filtObj(a)= a filterObject () ->(!isEmpty($))
----
-
-   if(!isEmpty(vars.reqUri))filtObj(vars.reqUri) mapObject () ->
-   {
-       ($$):dw::core::URL::encodeURI(dw::core::URL::decodeURI($))
-   } 
-   else {}]]]></http:uri-params>
-				<http:query-params ><![CDATA[#[%dw 2.0
-output application/java
-fun filtObj(a)= a filterObject () ->(!isEmpty($))
----
-
-   if(!isEmpty(vars.queryParameters))filtObj(vars.queryParameters) mapObject () ->
-   {
-       ($$):dw::core::URL::encodeURI(dw::core::URL::decodeURI($))
-   } 
-   else {}]]]></http:query-params>
 		</http:request>
 			<error-handler >
 				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="119ad882-a6e7-40c8-8ccc-d35536c264a8" >
@@ -62,8 +37,8 @@ fun filtObj(a)= a filterObject () ->(!isEmpty($))
 		</try>
 		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="9abf680c-a5e1-447a-b7e8-d6a81029c5f3" />
 		<set-variable value="#[attributes.statusCode]" doc:name="httpStatus" doc:id="b292cbf5-ea9e-4ed5-82be-b0584664ada4" variableName="httpStatus" />
-		<remove-variable doc:name="inputParams" doc:id="96b72483-0e51-46ad-8913-c43038be9ebd" variableName="inputParams"/>
-		<remove-variable doc:name="reqPayload" doc:id="4e0ecd0d-c060-4f40-950e-4dfe3faa3e97" variableName="reqPayload"/>
+		<remove-variable doc:name="inputParams" doc:id="96b72483-0e51-46ad-8913-c43038be9ebd" variableName="requestParams"/>
+		<remove-variable doc:name="reqPayload" doc:id="4e0ecd0d-c060-4f40-950e-4dfe3faa3e97" variableName="requestPayload"/>
 	</sub-flow>
 </mule>
 	

@@ -1,0 +1,16 @@
+{
+  "ucp_version": "2026-01-23",
+  "services": {
+    "dev.ucp.shopping": {
+      "rest": {
+        "endpoint": "http://localhost:8081/api/v1"
+      }
+    }
+  },
+  "capabilities": [
+    {
+      "name": "dev.ucp.shopping.checkout",
+      "payment_handlers": ["google_pay"]
+    }
+  ]
+}

@@ -34,7 +34,7 @@ http://www.mulesoft.org/schema/mule/crypto http://www.mulesoft.org/schema/mule/c
 	
 	<configuration-properties doc:name="Configuration properties" doc:id="61d93d80-358e-4927-968a-5bdd89398342" file="properties/local-configuration.yaml" />
 	<http:request-config name="process_request_configuration" doc:name="HTTP Request configuration" doc:id="9aa0ddca-cfae-4355-97ff-5b726acad242" basePath="${http.process.request.basePath}" responseTimeout="90000">
-		<http:request-connection protocol="HTTPS" host="${http.request.host}" >
+		<http:request-connection protocol="HTTPS" host="${http.request.process.host}" port="${http.request.process.port}">
 			<reconnection >
 				<reconnect frequency="${reconnection.freq}" count="${reconnection.attempts}" />
 			</reconnection>

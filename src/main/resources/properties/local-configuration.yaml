@@ -1,13 +1,15 @@
 api_instance: "18546441"
 environment: "Development"
 http:
-    process:
-        request:
-            basePath: "dev/papi/geny-accounts-registrations/v1"
-            process_client_secret: ""
-            process_client_id: ""
     request:
-        host: "non-prod.api.local.eu.henryschein.com"
+        process:
+            host: "non-prod.api.local.eu.henryschein.com"
+            port: 8082
+            basePath: "dev/papi/geny-accounts-registrations/v1"
+            checkout-session:
+                client_secret: ""
+                client_id: ""
+        
 reconnection:
     freq: "1000"
     attempts: "5"
