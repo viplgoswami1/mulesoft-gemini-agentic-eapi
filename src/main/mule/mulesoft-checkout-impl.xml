@@ -1,51 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<flow name="mulesoft-checkout-impl-well-known" doc:id="835d7894-befb-4be7-b752-7478b9252059" >
 		<logger level="INFO" doc:name="Logger" doc:id="ac4efcb6-eaea-47a7-8fa3-bbe3e599eab7" />
-	</flow>
-	<flow name="mulesoft-checkout-impl-get-checkout-sessions" doc:id="48228e69-cca7-4fd4-8906-2952b3005e5d" >
-		<logger level="INFO" doc:name="Logger" doc:id="54af13e0-d438-46ad-8d8c-e6bfa0b0c14b" />
-		<ee:transform doc:name="Transform Message" doc:id="5f203326-af8f-44ba-81fc-8ae206f482f3" >
+		<ee:transform doc:name="Transform Message" doc:id="7578cfcd-d8cd-4d23-a2a5-83f4ab358fcc" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
+readUrl("classpath://ucp.json", "application/json")
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="mulesoft-checkout-impl-get-checkout-sessions" doc:id="48228e69-cca7-4fd4-8906-2952b3005e5d" >
+		<logger level="INFO" doc:name="Logger" doc:id="54af13e0-d438-46ad-8d8c-e6bfa0b0c14b" />
+		<ee:transform doc:name="Set Request Params" doc:id="a9b55663-41e6-42a9-8379-e7752dd596d8" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="requestParams" ><![CDATA[%dw 2.0
+output application/java
+---
 {
-  id: "123",
-  status: "active"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+	method:"GET",
+	path: Mule::p('http.request.process.basePath') ++  Mule::p('http.request.process.checkout-session.path'),
+	client_id: Mule::p('http.request.process.checkout-session.client_id'),
+	client_secret: Mule::p('http.request.process.checkout-session.client_secret')
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Process API Call" doc:id="40d6d93f-aa06-4832-a642-9e18df048753" name="processApiCall"/>
+		<ee:transform doc:name="Set Response Payload" doc:id="5f203326-af8f-44ba-81fc-8ae206f482f3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
 	<flow name="mulesoft-checkout-impl-post-checkout-sessions" doc:id="31c172f1-30f3-402e-839f-b6c7dd3cc2ea" >
 		<logger level="INFO" doc:name="Logger" doc:id="d55ac1b4-746a-43b4-ad34-2956330b5a5d" />
-		<ee:transform doc:name="Transform Message" doc:id="ad8421d5-c88c-482e-935f-18f4239d0cd8" >
+		<ee:transform doc:name="Set Request Params" doc:id="9fb2f11d-075d-4eb4-80f1-2cf9d4ff6444" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="requestParams" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	method:"POST",
+	path: Mule::p('http.request.process.basePath') ++  Mule::p('http.request.process.checkout-session.path'),
+	client_id: Mule::p('http.request.process.checkout-session.client_id'),
+	client_secret: Mule::p('http.request.process.checkout-session.client_secret')
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Set Reuqest Payload" doc:id="babe6329-9854-4d00-8bce-dea021303183">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Process API Call" doc:id="f12bcc55-3b93-46bb-ae83-4fb2dc24c76f" name="processApiCall" />
+		<ee:transform doc:name="Set Response Payload" doc:id="cf9fdf91-9c03-4cf3-a42d-18d5bc713abb" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  id: "123",
-  status: "active"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
 	<flow name="mulesoft-checkout-impl-put-checkout-sessions" doc:id="f0310dc9-1731-46d9-95f9-a45ef366084c" >
 		<logger level="INFO" doc:name="Logger" doc:id="7efc2487-1ca2-4d1d-9966-cfe5142e2c4a" />
-		<ee:transform doc:name="Transform Message" doc:id="87c845fd-cced-4eea-b235-ab24657a366a" >
+		<ee:transform doc:name="Set Request Params" doc:id="336e1ca2-7fcd-429d-aa7e-bf772c30db04" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="requestParams" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	method:"PUT",
+	path: Mule::p('http.request.process.basePath') ++  Mule::p('http.request.process.checkout-session.path'),
+	client_id: Mule::p('http.request.process.checkout-session.client_id'),
+	client_secret: Mule::p('http.request.process.checkout-session.client_secret')
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Set Request Payload" doc:id="6e43b1ff-19f7-4d26-9285-a211c610e1bb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Process API Call" doc:id="65741301-17d0-41da-9227-efb715c271dd" name="processApiCall" />
+		<ee:transform doc:name="Set Response Payload" doc:id="7c62f33f-997e-4dc4-b332-ac753fa9ddd9" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  id: "123",
-  status: "active"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
