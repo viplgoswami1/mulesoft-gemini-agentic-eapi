@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuleSoft Gemini Agentic EAPI</title>
+
+    <!-- Scarf tracking pixel — fires on every page visit, records real company name -->
+    <img referrerpolicy="no-referrer-when-downgrade"
+         src="https://static.scarf.sh/a.png?x-pxid=97fb6777-7e13-4701-9321-8a66692c0002"
+         style="display:none" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #e6edf3; }
+        header { background: #161b22; border-bottom: 1px solid #30363d; padding: 20px 40px; display: flex; align-items: center; gap: 16px; }
+        header h1 { font-size: 20px; color: #58a6ff; }
+        .gemini-badge { background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05, #EA4335); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 22px; }
+        .hero { text-align: center; padding: 80px 40px 60px; background: linear-gradient(180deg, #0d1117 0%, #161b22 100%); }
+        .hero h2 { font-size: 42px; font-weight: 700; margin-bottom: 16px; }
+        .hero p { font-size: 18px; color: #8b949e; max-width: 650px; margin: 0 auto 32px; line-height: 1.6; }
+        .badges { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
+        .badges img { height: 20px; }
+        .btn { display: inline-block; padding: 12px 28px; border-radius: 6px; font-size: 16px; font-weight: 600; text-decoration: none; margin: 6px; }
+        .btn-primary { background: #238636; color: white; border: 1px solid #2ea043; }
+        .btn-secondary { background: #21262d; color: #58a6ff; border: 1px solid #30363d; }
+        .btn-gemini { background: linear-gradient(135deg, #4285F4, #34A853); color: white; border: none; }
+        .btn:hover { opacity: 0.85; }
+        .section { padding: 60px 40px; max-width: 900px; margin: 0 auto; }
+        .section h3 { font-size: 24px; margin-bottom: 24px; color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 12px; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 40px; }
+        .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 24px; }
+        .card h4 { font-size: 16px; margin-bottom: 8px; color: #f0f6fc; }
+        .card p { font-size: 14px; color: #8b949e; line-height: 1.5; }
+        pre { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 16px 0; position: relative; }
+        code { color: #79c0ff; font-family: 'Courier New', monospace; }
+        .xml { color: #7ee787; }
+        .copy-btn { position: absolute; top: 10px; right: 10px; background: #21262d; border: 1px solid #30363d; color: #8b949e; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .copy-btn:hover { color: #e6edf3; background: #30363d; }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        th { background: #161b22; padding: 12px 16px; text-align: left; font-size: 14px; color: #8b949e; border-bottom: 1px solid #30363d; }
+        td { padding: 12px 16px; border-bottom: 1px solid #21262d; font-size: 14px; }
+        .arch { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 30px; text-align: center; margin: 16px 0; }
+        .arch-step { display: inline-block; background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 10px 20px; font-size: 14px; }
+        .arch-arrow { color: #58a6ff; font-size: 20px; margin: 8px 0; display: block; }
+        .tag { display: inline-block; background: #1f2d3d; color: #58a6ff; border: 1px solid #1f6feb; border-radius: 12px; padding: 2px 10px; font-size: 12px; margin: 2px; }
+        footer { text-align: center; padding: 40px; border-top: 1px solid #30363d; color: #8b949e; font-size: 14px; margin-top: 40px; }
+        footer a { color: #58a6ff; text-decoration: none; }
+        .highlight { color: #f0f6fc; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<header>
+    <span class="gemini-badge">✦ Gemini</span>
+    <h1>MuleSoft Gemini Agentic EAPI</h1>
+</header>
+
+<div class="hero">
+    <h2>AI-Powered MuleSoft Integration</h2>
+    <p>A MuleSoft Experience API that integrates with Google Gemini AI for
+       Native Checkout Functionality. A direct plug-and-play app to enable
+       UCP for any eCommerce application with agentic AI capabilities.</p>
+
+    <div class="badges">
+        <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License">
+        <img src="https://img.shields.io/badge/MuleSoft-Mule%204.4%2B-00A0DF" alt="MuleSoft">
+        <img src="https://img.shields.io/badge/Java-17-orange" alt="Java">
+        <img src="https://img.shields.io/badge/Google-Gemini%20AI-4285F4" alt="Gemini">
+    </div>
+
+    <a href="https://github.com/viplgoswami1/mulesoft-gemini-agentic-eapi" class="btn btn-primary">⭐ Star on GitHub</a>
+    <a href="https://github.com/viplgoswami1/mulesoft-gemini-agentic-eapi/archive/refs/heads/main.zip" class="btn btn-gemini">⬇ Download ZIP</a>
+    <a href="https://github.com/viplgoswami1/mulesoft-gemini-agentic-eapi" class="btn btn-secondary">🍴 Fork</a>
+</div>
+
+<div class="section">
+
+    <h3>Overview</h3>
+    <div class="cards">
+        <div class="card">
+            <h4>🤖 Agentic Workflows</h4>
+            <p>AI-driven decision making within Mule flows — let Gemini orchestrate multi-step enterprise processes automatically.</p>
+        </div>
+        <div class="card">
+            <h4>🗣️ Natural Language Processing</h4>
+            <p>Process unstructured data with Gemini — summarize, classify, and extract insights from any content.</p>
+        </div>
+        <div class="card">
+            <h4>🔌 Enterprise Integration</h4>
+            <p>Connect Gemini AI to any backend system via MuleSoft — ERP, CRM, databases, and APIs.</p>
+        </div>
+        <div class="card">
+            <h4>🛒 Native Checkout</h4>
+            <p>Direct plug-and-play to enable UCP for eCommerce applications with AI-powered product recommendations.</p>
+        </div>
+    </div>
+
+    <h3>Architecture</h3>
+    <div class="arch">
+        <div class="arch-step">Client Request</div>
+        <span class="arch-arrow">↓</span>
+        <div class="arch-step">MuleSoft Gemini Agentic EAPI</div>
+        <span class="arch-arrow">↓</span>
+        <div class="arch-step">Google Gemini AI API</div>
+        <span class="arch-arrow">↓</span>
+        <div class="arch-step">Response with AI-generated insights</div>
+    </div>
+
+    <h3>Getting Started</h3>
+    <p style="color:#8b949e; margin-bottom:12px"><span class="highlight">Step 1</span> — Clone the repository:</p>
+    <pre><button class="copy-btn" onclick="navigator.clipboard.writeText('git clone https://github.com/viplgoswami1/mulesoft-gemini-agentic-eapi.git\ncd mulesoft-gemini-agentic-eapi')">Copy</button><code>git clone https://github.com/viplgoswami1/mulesoft-gemini-agentic-eapi.git
+cd mulesoft-gemini-agentic-eapi</code></pre>
+
+    <p style="color:#8b949e; margin: 20px 0 12px"><span class="highlight">Step 2</span> — Import into Anypoint Studio:</p>
+    <div class="card" style="margin-bottom:20px">
+        <p>File → Import → Anypoint Studio Project from File System → Select cloned folder → Finish</p>
+    </div>
+
+    <p style="color:#8b949e; margin-bottom:12px"><span class="highlight">Step 3</span> — Configure credentials in <code>src/main/resources/config.yaml</code>:</p>
+    <pre><button class="copy-btn" onclick="navigator.clipboard.writeText('gemini:\n  api:\n    key: \"YOUR_GEMINI_API_KEY\"\n    url: \"https://generativelanguage.googleapis.com/v1beta\"\n    model: \"gemini-pro\"')">Copy</button><code>gemini:
+  api:
+    key: "YOUR_GEMINI_API_KEY"
+    url: "https://generativelanguage.googleapis.com/v1beta"
+    model: "gemini-pro"</code></pre>
+
+    <h3>Configuration</h3>
+    <table>
+        <tr><th>Variable</th><th>Description</th><th>Required</th></tr>
+        <tr><td><code>GEMINI_API_KEY</code></td><td>Google Gemini API key from <a href="https://ai.google.dev" style="color:#58a6ff">ai.google.dev</a></td><td>✅</td></tr>
+        <tr><td><code>GEMINI_MODEL</code></td><td>Model name (default: gemini-pro)</td><td>❌</td></tr>
+        <tr><td><code>GEMINI_MAX_TOKENS</code></td><td>Max response tokens (default: 1024)</td><td>❌</td></tr>
+    </table>
+
+    <h3>API Endpoints</h3>
+    <div class="cards">
+        <div class="card">
+            <h4>POST /gemini/generate</h4>
+            <p>Generate AI content using Gemini. Pass a prompt and context, receive AI-generated text.</p>
+        </div>
+        <div class="card">
+            <h4>POST /gemini/agent/execute</h4>
+            <p>Execute an agentic workflow with multi-step reasoning: analyze → recommend → format.</p>
+        </div>
+    </div>
+
+    <p style="color:#8b949e; margin-bottom:12px">Example request to <code>/gemini/generate</code>:</p>
+    <pre><button class="copy-btn" onclick="navigator.clipboard.writeText('{\n  \"prompt\": \"Summarize for Google Shopping listing\",\n  \"context\": \"Your product description here...\",\n  \"maxTokens\": 500\n}')">Copy</button><code>{
+  "prompt": "Summarize for Google Shopping listing",
+  "context": "Your product description here...",
+  "maxTokens": 500
+}</code></pre>
+
+    <h3>Example Mule Flow</h3>
+    <pre><button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('flow-code').innerText)">Copy</button><code id="flow-code" class="xml">&lt;flow name="geminiAgenticFlow"&gt;
+    &lt;http:listener path="/gemini/generate" method="POST"/&gt;
+
+    &lt;transform:message&gt;
+        &lt;transform:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+{
+    contents: [{
+        parts: [{
+            text: payload.prompt ++ "\n\n" ++ payload.context
+        }]
+    }]
+}]]&gt;&lt;/transform:set-payload&gt;
+    &lt;/transform:message&gt;
+
+    &lt;http:request
+        url="https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
+        method="POST"&gt;
+        &lt;http:headers&gt;
+            &lt;http:header key="x-goog-api-key" value="${gemini.api.key}"/&gt;
+        &lt;/http:headers&gt;
+    &lt;/http:request&gt;
+
+    &lt;logger message="#[payload]"/&gt;
+&lt;/flow&gt;</code></pre>
+
+    <h3>Also See</h3>
+    <div class="cards">
+        <div class="card">
+            <h4>🔌 Google Merchant Center Connector</h4>
+            <p>Custom MuleSoft connector for Google Shopping API — published on Maven Central.<br><br>
+            <a href="https://github.com/viplgoswami1/google-merchant-center-connector" style="color:#58a6ff">GitHub</a> ·
+            <a href="https://central.sonatype.com/artifact/io.github.viplgoswami1/google-merchant-center-mule-connector" style="color:#58a6ff">Maven Central</a></p>
+        </div>
+        <div class="card">
+            <h4>📦 Maven Central</h4>
+            <p>Published connector available for anyone to use.<br><br>
+            <a href="https://central.sonatype.com/artifact/io.github.viplgoswami1/google-merchant-center-mule-connector" style="color:#58a6ff">central.sonatype.com</a></p>
+        </div>
+    </div>
+
+    <h3>Contributing</h3>
+    <pre><button class="copy-btn" onclick="navigator.clipboard.writeText('git checkout -b feature/my-feature\ngit commit -m \"feat: add my feature\"\ngit push origin feature/my-feature')">Copy</button><code>git checkout -b feature/my-feature
+git commit -m 'feat: add my feature'
+git push origin feature/my-feature
+# Then open a Pull Request on GitHub</code></pre>
+
+</div>
+
+<footer>
+    <p>
+        Built by <a href="https://github.com/viplgoswami1">Viplove Goswami</a> &nbsp;·&nbsp;
+        <a href="https://github.com/viplgoswami1/mulesoft-gemini-agentic-eapi">GitHub</a> &nbsp;·&nbsp;
+        <a href="https://github.com/viplgoswami1/google-merchant-center-connector">Connector Repo</a> &nbsp;·&nbsp;
+        <a href="https://central.sonatype.com/namespace/io.github.viplgoswami1">Maven Central</a> &nbsp;·&nbsp;
+        Apache License 2.0
+    </p>
+    <br>
+    <p style="font-size:12px">Built with ❤️ for the MuleSoft and AI community</p>
+</footer>
+
+</body>
+</html>
