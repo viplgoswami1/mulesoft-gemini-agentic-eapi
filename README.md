@@ -7,8 +7,7 @@
 
 ![](https://static.scarf.sh/a.png?x-pxid=97fb6777-7e13-4701-9321-8a66692c0002)
 
-A **MuleSoft Experience API** that integrates Google Gemini AI into enterprise workflows,
-enabling agentic AI capabilities within the Anypoint Platform ecosystem.
+A **MuleSoft Experience API** that integrates with Google Gemini AI for Native Checkout Functionality. This eapi is direct plug-and-play app to enable UCP for any of the eCommerce application, enabling agentic AI capabilities within the Anypoint Platform ecosystem.
 
 ---
 
