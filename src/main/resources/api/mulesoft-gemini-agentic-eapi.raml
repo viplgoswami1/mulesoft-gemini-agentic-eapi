@@ -4,6 +4,11 @@ version: v1
 mediaType: application/json
 protocols: [ HTTPS ]
 
+types:
+  OrderRequest: !include ../schemas/CreateCheckoutSessionRequest.raml
+  PostCartRequest : !include ../schemas/CartRequest.raml
+  PutCartRequest : !include ../schemas/UpdateCartRequest.raml
+
 /.well-known/ucp:
   get:
     responses:
@@ -16,7 +21,7 @@ protocols: [ HTTPS ]
     body:
       application/json:
         properties: # Body must define properties or a type
-          userId: string
+        type: OrderRequest
     responses:
       201:
         body:
@@ -36,3 +41,29 @@ protocols: [ HTTPS ]
       body:
         application/json:
         
+
+/carts:
+  /{cartId}:
+    uriParameters:
+      cartId: string
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+    put:
+      body:
+        application/json:
+          type: PutCartRequest
+      responses:
+        201:
+          body:
+            application/json:
+  post:
+    body:
+      application/json:
+        type: PostCartRequest
+    responses:
+      201:
+        body:
+          application/json:

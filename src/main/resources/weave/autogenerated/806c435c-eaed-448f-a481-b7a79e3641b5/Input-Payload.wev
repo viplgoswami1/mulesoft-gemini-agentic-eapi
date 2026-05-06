@@ -1,0 +1,24 @@
+%dw 2.0
+
+type auto_806c435c_eaed_448f_a481_b7a79e3641b5_Input_Payload = {
+  id: String, 
+  line_items: {
+    item: {
+      quantity: Number, 
+      item_id: String, 
+      subtotal: Number, 
+      currency: String, 
+      id: String, 
+      unit_price: Number, 
+      _?: Any
+    } {"description": "Product reference being updated or added",
+    "label": "UpdatedCartItem"}, 
+    quantity: Number, 
+    id?: String, 
+    _?: Any
+  } {"description": "Full replacement list of line items. Existing items not included will be removed. Set quantity to 0 on any item to explicitly remove it.\n",
+  "label": "UpdateLineItem"}, 
+  _?: Any
+} {"label": "UpdateCartRequest",
+"description": "Request payload to update an existing cart session. Replaces the full line_items array — include all items you want the cart to contain after the update.\n"}
+

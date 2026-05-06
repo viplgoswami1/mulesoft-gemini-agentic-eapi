@@ -1,0 +1,15 @@
+#%RAML 1.0 DataType
+
+description: A single line item in an order, referencing a catalog item and quantity
+type: object
+properties:
+  item:
+    type: !include ItemRef.raml
+    required: true
+    description: Reference to the catalog item being ordered
+  quantity:
+    type: integer
+    required: true
+    minimum: 1
+    description: Number of units ordered
+    example: 1

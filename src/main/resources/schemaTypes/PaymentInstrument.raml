@@ -1,0 +1,37 @@
+#%RAML 1.0 DataType
+
+description: A payment instrument (e.g. saved card, digital wallet) used to fund the order
+type: object
+properties:
+  id:
+    type: string
+    required: true
+    description: Unique identifier of the payment instrument
+    example: "1"
+  handler_id:
+    type: string
+    required: true
+    description: ID of the payment handler responsible for processing this instrument
+    example: "1"
+  type:
+    type: string
+    required: false
+    description: Payment instrument type (e.g. card, wallet). May be empty if determined by the handler.
+    example: ""
+  billing_address:
+    type: object
+    required: false
+    description: Billing address associated with this instrument. Extensible — additional fields allowed.
+  credential:
+    type: object
+    required: false
+    description: Tokenized or encrypted credential for the instrument. Extensible — additional fields allowed.
+  display:
+    type: object
+    required: false
+    description: Display metadata for the instrument (e.g. masked card number, icon URL). Extensible.
+  selected:
+    type: boolean
+    required: false
+    description: Indicates whether this instrument is currently selected for payment
+    example: false

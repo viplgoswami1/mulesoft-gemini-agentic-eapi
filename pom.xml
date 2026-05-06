@@ -2,19 +2,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.mycompany</groupId>
+	<groupId>bce27312-3c49-48bc-84a1-032f1f6ea58e</groupId>
 	<artifactId>mulesoft-gemini-agentic-eapi</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
 
 	<name>mulesoft-gemini-agentic-eapi</name>
 
+	<description>This is the application work as an Orchestrator for UCP implementation</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<app.runtime>4.10.1</app.runtime>
 		<mule.maven.plugin.version>4.6.1</mule.maven.plugin.version>
+		<tags>1.0.0,UCP,Agentic Commerce</tags>
+		<categories>[]</categories>
+		<fields>[]</fields>
 	</properties>
 
 	<build>
@@ -50,6 +54,12 @@
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>1.11.10</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-file-connector</artifactId>
+			<version>1.5.5</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>

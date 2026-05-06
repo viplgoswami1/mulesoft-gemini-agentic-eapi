@@ -1,0 +1,14 @@
+#%RAML 1.0 DataType
+displayName: Signals
+description: >
+  Open key-value map of additional signals for fraud detection,
+  personalisation and UCP processing.
+  Keys follow the reverse-DNS signal namespace convention
+  (e.g. dev.ucp.buyer_ip). Any additional signal keys are permitted.
+type: object
+properties:
+  dev.ucp.buyer_ip:
+    type: string
+    description: Any signal key in reverse-DNS namespace format
+example:
+  dev.ucp.buyer_ip: "203.0.113.42"

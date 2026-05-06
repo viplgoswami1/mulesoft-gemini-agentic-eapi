@@ -1,0 +1,18 @@
+#%RAML 1.0 DataType
+
+description: Payment configuration for the order, including instruments and their handlers
+type: object
+properties:
+  instruments:
+    type: array
+    required: true
+    description: List of payment instruments available or selected for this order
+    minItems: 1
+    items:
+      type: !include PaymentInstrument.raml
+  handlers:
+    type: array
+    required: false
+    description: List of payment handlers capable of processing the instruments
+    items:
+      type: !include PaymentHandler.raml

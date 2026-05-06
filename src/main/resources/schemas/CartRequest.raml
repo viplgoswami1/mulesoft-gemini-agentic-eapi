@@ -1,0 +1,15 @@
+#%RAML 1.0 DataType
+displayName: CartRequest
+description: Request payload to create a new shopping cart session
+type: object
+properties:
+  line_items:
+    type: !include ../schemaTypes/LineItemCart.raml
+    description: One or more products being added to the cart
+  context:
+    type: !include ../schemaTypes/Context.raml
+    description: Buyer location and currency context
+  signals:
+    type: !include ../schemaTypes/Signals.raml
+    description: Optional UCP and fraud detection signals
+    required: false

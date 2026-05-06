@@ -1,0 +1,32 @@
+#%RAML 1.0 DataType
+
+description: Buyer (customer) information associated with the order
+type: object
+properties:
+  first_name:
+    type: string
+    required: true
+    description: Buyer's first name
+    example: "John"
+  last_name:
+    type: string
+    required: true
+    description: Buyer's last name
+    example: "Smith"
+  email:
+    type: string
+    required: true
+    description: Buyer's email address
+    pattern: ^[^@]+@[^@]+\.[^@]+$
+    example: "john@gmail.com"
+  linked_account_token:
+    type: string
+    required: false
+    description: OAuth token linking the buyer to an external account
+    example: "tok_sony_oauth_xyz"
+  phone_number:
+    type: string
+    required: false
+    description: Buyer's phone number (10–15 digits)
+    pattern: ^\d{10,15}$
+    example: "1234567890"

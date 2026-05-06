@@ -1,0 +1,15 @@
+#%RAML 1.0 DataType
+
+description: A payment handler that processes one or more payment instruments
+type: object
+properties:
+  id:
+    type: string
+    required: true
+    description: Unique identifier of the payment handler
+    example: "google_pay"
+  name:
+    type: string
+    required: true
+    description: Fully qualified package or handler name
+    example: "com.google.pay"

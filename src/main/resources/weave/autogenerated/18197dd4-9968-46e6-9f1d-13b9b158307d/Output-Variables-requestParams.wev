@@ -1,0 +1,9 @@
+%dw 2.0
+
+type auto_18197dd4_9968_46e6_9f1d_13b9b158307d_Output_Variables_requestParams = {|
+  method: String, 
+  path: String, 
+  client_id: String, 
+  client_secret: String
+|}
+

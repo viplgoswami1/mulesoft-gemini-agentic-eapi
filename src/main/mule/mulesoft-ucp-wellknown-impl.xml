@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="mulesoft-checkout-impl-well-known" doc:id="9e567169-43f3-48d5-9fad-e07df658ac79" >
+		<logger level="INFO" doc:name="Logger" doc:id="cd0f97ee-d7d9-4ad2-88e2-057dcbc0792b" message="#['Reading configuration file']"/>
+		<ee:transform doc:name="Transform Message" doc:id="205cfa8b-13fc-4b63-b88a-12196fce516e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+readUrl("classpath://ucp.json", "application/json")
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

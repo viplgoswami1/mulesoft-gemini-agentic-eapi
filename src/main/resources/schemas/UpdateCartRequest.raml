@@ -1,0 +1,19 @@
+#%RAML 1.0 DataType
+displayName: UpdateCartRequest
+description: >
+  Request payload to update an existing cart session.
+  Replaces the full line_items array — include all items
+  you want the cart to contain after the update.
+type: object
+properties:
+  id:
+    type: string
+    description: Unique identifier of the cart to be updated
+    minLength: 1
+    example: cart_abc123
+  line_items:
+    type: !include ../schemaTypes/UpdateLineItem.raml
+    description: >
+      Full replacement list of line items.
+      Existing items not included will be removed.
+      Set quantity to 0 on any item to explicitly remove it.
