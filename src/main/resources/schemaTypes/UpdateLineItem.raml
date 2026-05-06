@@ -1,0 +1,25 @@
+#%RAML 1.0 DataType
+displayName: UpdateLineItem
+description: >
+  A line item entry in the PUT cart request.
+  Supply the existing line item id to update quantity,
+  or omit id to add a new line item to the cart.
+type: object
+properties:
+  id:
+    type: string
+    description: >
+      Existing line item identifier. If present the line item is updated.
+      Omit to add a new line item.
+    required: false
+    example: li_1
+  item:
+    type: !include UpdatedCartItem.raml
+    description: Product reference being updated or added
+  quantity:
+    type: integer
+    description: >
+      Updated quantity for this line item.
+      Set to 0 to remove the line item from the cart.
+    minimum: 0
+    example: 2

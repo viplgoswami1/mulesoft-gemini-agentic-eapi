@@ -1,0 +1,12 @@
+#%RAML 1.0 DataType
+
+description: Fulfillment configuration for the order, containing one or more fulfillment methods
+type: object
+properties:
+  methods:
+    type: array
+    required: true
+    description: List of fulfillment methods applied to this order
+    minItems: 1
+    items:
+      type: !include FulfillmentMethod.raml

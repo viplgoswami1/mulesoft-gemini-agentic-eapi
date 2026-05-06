@@ -1,0 +1,34 @@
+#%RAML 1.0 DataType
+description: Root request body for creating a new order
+type: object
+properties:
+  currency:
+    type: string
+    required: true
+    description: ISO 4217 three-letter currency code
+    minLength: 3
+    maxLength: 3
+    example: "USD"
+  line_items:
+    type: array
+    required: true
+    description: One or more items being purchased in this order
+    minItems: 1
+    items:
+      type: !include ../schemaTypes/LineItem.raml
+  buyer:
+    type: !include ../schemaTypes/Buyer.raml
+    required: true
+    description: Information about the customer placing the order
+  context:
+    type: !include ../schemaTypes/Context.raml
+    required: false
+    description: Geographic context used for tax and pricing calculations
+  fulfillment:
+    type: !include ../schemaTypes/Fulfillment.raml
+    required: false
+    description: Fulfillment configuration describing how and where items will be delivered
+  payment:
+    type: !include ../schemaTypes/Payment.raml
+    required: false
+    description: Payment configuration including instruments and handlers

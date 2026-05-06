@@ -1,12 +1,39 @@
 api_instance: "18546441"
 environment: "Development"
+listener:
+    host: "localhost"
+    port: "8081"
+    basePath: "api"
+    keystore:
+        type: "JKS"
+        path: "samplekeystore1.jks"
+        alias: "mysamplekey1"
+        keypassword: "mule123"
+        password: "mule123"
 http:
     request:
         process:
-            host: "non-prod.api.local.eu.henryschein.com"
-            port: 8082
-            basePath: "dev/papi/geny-accounts-registrations/v1"
-            checkout-session:
+            host: "localhost"
+            port: "8082"
+            basePath: "/api/v1"
+            create-checkout-session:
+                path: "/checkout-sessions"
+                method: "POST"
+                client_secret: ""
+                client_id: ""
+            getcarts:
+                path: "/carts/"
+                method: "GET"
+                client_secret: ""
+                client_id: ""
+            postcarts:
+                path: "/carts"
+                method: "POST"
+                client_secret: ""
+                client_id: ""
+            putcarts:
+                path: "/carts/"
+                method: "PUT"
                 client_secret: ""
                 client_id: ""
         

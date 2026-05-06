@@ -1,46 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<mule
- xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto"
-	xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" 
-	xmlns:db="http://www.mulesoft.org/schema/mule/db"
-	xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
-	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
-	xmlns:spring="http://www.mulesoft.org/schema/mule/spring" 
-	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
-	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
-	 xmlns:as400="http://www.mulesoft.org/schema/mule/as400" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
-http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/as400 http://www.mulesoft.org/schema/mule/as400/current/mule-as400.xsd
-http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
-http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
-http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd
-http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd
-http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
-http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
-http://www.mulesoft.org/schema/mule/oauth http://www.mulesoft.org/schema/mule/oauth/current/mule-oauth.xsd
-http://www.mulesoft.org/schema/mule/crypto http://www.mulesoft.org/schema/mule/crypto/current/mule-crypto.xsd">
-	
-	
-	   <http:listener-config name="mulesoft-gemini-agentic-eapi-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8081" />
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:as400="http://www.mulesoft.org/schema/mule/as400" xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd  http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/as400 http://www.mulesoft.org/schema/mule/as400/current/mule-as400.xsd http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd http://www.mulesoft.org/schema/mule/oauth http://www.mulesoft.org/schema/mule/oauth/current/mule-oauth.xsd http://www.mulesoft.org/schema/mule/crypto http://www.mulesoft.org/schema/mule/crypto/current/mule-crypto.xsd">
+    <http:listener-config name="mulesoft-gemini-agentic-eapi-httpListenerConfig">
+        <http:listener-connection host="${listener.host}" port="${listener.port}" protocol="HTTPS" tlsContext="TLS_Context" />
     </http:listener-config>
-    <apikit:config name="mulesoft-gemini-agentic-eapi-config" api="api/mulesoft-gemini-agentic-eapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-	
-	<configuration-properties doc:name="Configuration properties" doc:id="61d93d80-358e-4927-968a-5bdd89398342" file="properties/local-configuration.yaml" />
-	<http:request-config name="process_request_configuration" doc:name="HTTP Request configuration" doc:id="9aa0ddca-cfae-4355-97ff-5b726acad242" basePath="${http.process.request.basePath}" responseTimeout="90000">
-		<http:request-connection protocol="HTTPS" host="${http.request.process.host}" port="${http.request.process.port}">
-			<reconnection >
-				<reconnect frequency="${reconnection.freq}" count="${reconnection.attempts}" />
-			</reconnection>
-		</http:request-connection>
-	</http:request-config>
- </mule>
- 
- 	
- 	
+    <apikit:config name="mulesoft-gemini-agentic-eapi-config" api="mulesoft-gemini-agentic-eapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <configuration-properties doc:name="Configuration properties" doc:id="61d93d80-358e-4927-968a-5bdd89398342" file="properties/local-configuration.yaml" />
+    <http:request-config name="process_request_configuration" doc:name="HTTP Request configuration" doc:id="9aa0ddca-cfae-4355-97ff-5b726acad242" responseTimeout="90000">
+        <http:request-connection protocol="HTTPS" host="${http.request.process.host}" port="${http.request.process.port}">
+            <reconnection>
+                <reconnect frequency="${reconnection.freq}" count="${reconnection.attempts}" />
+            </reconnection>
+            <tls:context>
+                <tls:trust-store insecure="true" />
+            </tls:context>
+        </http:request-connection>
+    </http:request-config>
+    <configuration doc:name="Configuration" doc:id="ca458e31-6677-4963-a690-8c80d4db710b" defaultErrorHandler-ref="error-handlerError_Handler" />
+    <tls:context name="TLS_Context" doc:name="TLS Context" doc:id="a0def93e-4f05-4b86-8b1b-8d4aab5768eb">
+        <tls:key-store type="jks" path="${listener.keystore.path}" alias="${listener.keystore.alias}" keyPassword="${listener.keystore.keypassword}" password="${listener.keystore.password}" />
+    </tls:context>
+</mule>

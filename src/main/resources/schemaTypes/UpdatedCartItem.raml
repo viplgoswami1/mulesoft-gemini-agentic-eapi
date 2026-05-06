@@ -1,0 +1,31 @@
+#%RAML 1.0 DataType
+displayName: UpdatedCartItem
+description: A fully priced line item returned in the PUT cart response
+type: object
+properties:
+  id:
+    type: string
+    description: Line item identifier
+    example: li_1
+  item_id:
+    type: string
+    description: Product SKU / identifier
+    example: WH1000XM5-BLK
+  quantity:
+    type: integer
+    minimum: 0
+    example: 1
+  unit_price:
+    type: number
+    format: double
+    description: Price per single unit in the cart currency
+    example: 349.99
+  currency:
+    type: string
+    description: ISO 4217 currency code
+    example: USD
+  subtotal:
+    type: number
+    format: double
+    description: unit_price × quantity
+    example: 349.99

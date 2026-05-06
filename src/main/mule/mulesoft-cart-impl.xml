@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="GET-carts-impl" doc:id="b6bf0777-3add-4c2c-825c-3681787307d7" >
+		<logger level="INFO" doc:name="Logger" doc:id="47317c83-db60-413d-be74-3f43ee7abe3a" message="#['GetCart SubFlow Initiated']"/>
+		<ee:transform doc:name="Set Request Params" doc:id="2b0ebeee-79ce-4969-bc0c-255f963c0d1a" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="requestParams" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	method:"GET",
+	path: Mule::p('http.request.process.basePath') ++  Mule::p('http.request.process.getcarts.path') ++ (vars.cartId default ""),
+	client_id: Mule::p('http.request.process.getcarts.client_id'),
+	client_secret: Mule::p('http.request.process.getcarts.client_secret')
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Process API Call" doc:id="e52e0861-2104-4c73-908e-80dfbd79b696" name="processApiCall" />
+		<ee:transform doc:name="Set Response Payload" doc:id="145608d4-b969-4dbe-a207-98d4b3f03c4a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="POST-carts-impl" doc:id="18197dd4-9968-46e6-9f1d-13b9b158307d" >
+		<logger level="INFO" doc:name="Logger" doc:id="4369ae52-891b-490e-b0d1-be35e2326966" message="#['PostCart SubFlow Initiated']" />
+		<ee:transform doc:name="Set Request Params" doc:id="913dbf33-316b-40d6-8396-164e726f86b0" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="requestParams" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	method:'http.request.process.postcarts.method',
+	path: Mule::p('http.request.process.basePath') ++  Mule::p('http.request.process.postcarts.path'),
+	client_id: Mule::p('http.request.process.postcarts.client_id'),
+	client_secret: Mule::p('http.request.process.postcarts.client_secret')
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Request Payload" doc:id="a4b80c71-76ae-4da2-bf02-1199cee770aa" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="requestPayload" ><![CDATA[%dw 2.0
+import * from dw::util::Timer
+output application/json
+---
+/* Please remove this if this transformation is not required final 
+ * transformation to convert to e-commerce system request should be 
+ * taken place at system api level */
+
+{
+  "id": "customercart" ++ (currentMilliseconds()[4] ++ currentMilliseconds()[5] ++ currentMilliseconds()[2]),
+  "currency": "USD",
+  "line_items": [
+    {
+      "id": "1",
+      "item": {
+        "id": payload.line_items[0].item.id,
+        "title": "Sony Products",
+        "price": 27999 + currentMilliseconds()[4]
+      },
+      "quantity": 1,
+      "totals": [
+        {
+          "type": "total",
+          "amount": 27999 + currentMilliseconds()[4]
+        }
+      ]
+    }
+  ],
+  "totals": [
+    {
+      "type": "total",
+      "amount": 27999 + currentMilliseconds()[4],
+      "display_text": "Est. (tax at checkout)"
+    }
+  ],
+  "continue_url": "https://sony.com/cart?id=cart_abc123",
+  "expires_at": "2026-04-29T10:00:00Z"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Process API Call" doc:id="7712a8b7-d7e3-45fe-9f17-739e462ed960" name="processApiCall" />
+		<ee:transform doc:name="Set Response Payload" doc:id="9f9f9d5d-7bb2-4faf-b595-4d705f043de2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="PUT-carts-impl" doc:id="806c435c-eaed-448f-a481-b7a79e3641b5" >
+		<logger level="INFO" doc:name="Logger" doc:id="21303371-fa28-4387-8ad2-9133a5ee1c2f" message="#['PostCart SubFlow Initiated']" />
+		<ee:transform doc:name="Set Request Params" doc:id="422c953f-53d1-4d66-8a8e-a0ff28737b23" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="requestParams" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	method:'http.request.process.postcarts.method',
+	path: Mule::p('http.request.process.basePath') ++  Mule::p('http.request.process.putcarts.path') ++ (vars.cartId default ""),
+	client_id: Mule::p('http.request.process.putcarts.client_id'),
+	client_secret: Mule::p('http.request.process.putcarts.client_secret')
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Request Payload" doc:id="1192cb5a-a6fa-4d5e-955c-0c59c7a2537f" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="requestPayload" ><![CDATA[%dw 2.0
+import * from dw::util::Timer
+output application/json
+---
+/* Please remove this if this transformation is not required final 
+ * transformation to convert to e-commerce system request should be 
+ * taken place at system api level */
+
+{
+  "id": "customercart" ++ (currentMilliseconds()[4] ++ currentMilliseconds()[5] ++ currentMilliseconds()[2]),
+  "currency": "USD",
+  "line_items": [
+    {
+      "id": "1",
+      "item": {
+        "id": payload.line_items[0].item.id,
+        "title": "Sony Products",
+        "price": 27999 + currentMilliseconds()[4]
+      },
+      "quantity": 1,
+      "totals": [
+        {
+          "type": "total",
+          "amount": 27999 + currentMilliseconds()[4]
+        }
+      ]
+    }
+  ],
+  "totals": [
+    {
+      "type": "total",
+      "amount": 27999 + currentMilliseconds()[4],
+      "display_text": "Est. (tax at checkout)"
+    }
+  ],
+  "continue_url": "https://sony.com/cart?id=cart_abc123",
+  "expires_at": "2026-04-29T10:00:00Z"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Process API Call" doc:id="99a0a1c2-f0e6-4bbe-9baf-92aa65364957" name="processApiCall" />
+		<ee:transform doc:name="Set Response Payload" doc:id="a0ea3c11-8665-4557-a00a-b1b39cf621ab" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

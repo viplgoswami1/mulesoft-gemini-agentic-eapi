@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-     <flow name="mulesoft-gemini-agentic-eapi-main">
-        <http:listener config-ref="mulesoft-gemini-agentic-eapi-httpListenerConfig" path="/api/v1/*">
+    <flow name="mulesoft-gemini-agentic-eapi-main">
+        <http:listener config-ref="mulesoft-gemini-agentic-eapi-httpListenerConfig" path="api/v1/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
@@ -11,89 +11,15 @@
             </http:error-response>
         </http:listener>
         <set-variable value="#[now()]" doc:name="flow_start_time" doc:id="8bd5fef5-74a2-45be-929f-91f6ff70bd57" variableName="flow_start_time" />
-		<set-variable value="#[attributes.headers.'X-Correlation-Id']" doc:name="correlationId" doc:id="396d75b5-630c-4722-a3b1-6a96eef0385e" variableName="correlationId" />
-		<set-variable value="#[attributes]" doc:name="attributes_var" doc:id="270acc94-6343-42d2-a69c-d547d455c6e2" variableName="attributes_var" />
-		<apikit:router config-ref="mulesoft-gemini-agentic-eapi-config" />
-		<error-handler>
-            <on-error-propagate type="APIKIT:BAD_REQUEST">
-                <ee:transform doc:name="Transform Message">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Bad request"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-            <on-error-propagate type="APIKIT:NOT_FOUND">
-                <ee:transform doc:name="Transform Message">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Resource not found"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
-                <ee:transform doc:name="Transform Message">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Method not allowed"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
-                <ee:transform doc:name="Transform Message">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Not acceptable"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
-                <ee:transform doc:name="Transform Message">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Unsupported media type"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
-                <ee:transform doc:name="Transform Message">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Not Implemented"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-        </error-handler>
+        <ee:transform doc:name="Transform Message" doc:id="e8b26f66-3ef7-4ce2-bc02-54989e8b7ac1">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="parameters1"><![CDATA[attributes.uriParams.'cartId']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <set-variable value="#[attributes.headers.'X-Correlation-Id']" doc:name="correlationId" doc:id="396d75b5-630c-4722-a3b1-6a96eef0385e" variableName="correlationId" />
+        <set-variable value="#[attributes]" doc:name="attributes_var" doc:id="270acc94-6343-42d2-a69c-d547d455c6e2" variableName="attributes_var" />
+        <apikit:router config-ref="mulesoft-gemini-agentic-eapi-config" />
     </flow>
     <flow name="mulesoft-gemini-agentic-eapi-console">
         <http:listener config-ref="mulesoft-gemini-agentic-eapi-httpListenerConfig" path="/console/*">
@@ -106,21 +32,11 @@ output application/json
             </http:error-response>
         </http:listener>
         <apikit:console config-ref="mulesoft-gemini-agentic-eapi-config" />
-        <error-handler>
-            <on-error-propagate type="APIKIT:NOT_FOUND">
-                <ee:transform doc:name="Transform Message">
-                    <ee:message>
-                        <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Resource not found"}]]></ee:set-payload>
-                    </ee:message>
-                    <ee:variables>
-                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
-                    </ee:variables>
-                </ee:transform>
-            </on-error-propagate>
-        </error-handler>
+    </flow>
+    <flow name="get:\.well-known\ucp:mulesoft-gemini-agentic-eapi-config">
+        <logger level="INFO" message="get:\.well-known\ucp:mulesoft-gemini-agentic-eapi-config" />
+        <flow-ref doc:name="Well Known Impl" doc:id="25556a7b-f43d-46e6-8c58-bc3c7ed5aa5e" name="mulesoft-checkout-impl-well-known" />
+        <logger level="INFO" doc:name="Log Response Payload" doc:id="09fd9f83-eff3-4b4b-a16e-fa04b8a85edc" message="#[payload]" />
     </flow>
     <flow name="put:\checkout-sessions\(id):application\json:mulesoft-gemini-agentic-eapi-config">
         <ee:transform doc:name="Transform Message">
@@ -129,11 +45,54 @@ output application/json
             </ee:variables>
         </ee:transform>
         <logger level="INFO" message="put:\checkout-sessions\(id):application\json:mulesoft-gemini-agentic-eapi-config" />
-		<flow-ref doc:name="Put SessionId Impl" doc:id="b4a00aa8-de25-4d3a-802a-bcadbf1a6992" name="mulesoft-checkout-impl-put-checkout-sessions"/>
+        <flow-ref doc:name="Put SessionId Impl" doc:id="b4a00aa8-de25-4d3a-802a-bcadbf1a6992" name="PUT-checkout-session-impl" />
+        <logger level="INFO" doc:name="Log Response Payload" doc:id="d7570139-c331-470d-b791-626943c623b1" message="#[payload]" />
     </flow>
-    <flow name="get:\.well-known\ucp:mulesoft-gemini-agentic-eapi-config">
-        <logger level="INFO" message="get:\.well-known\ucp:mulesoft-gemini-agentic-eapi-config" />
-		<flow-ref doc:name="Well Known Impl" doc:id="25556a7b-f43d-46e6-8c58-bc3c7ed5aa5e" name="mulesoft-checkout-impl-well-known"/>
+    <!-- [STUDIO:"get:\checkout-sessions\(id):mulesoft-gemini-agentic-eapi-config"]<flow name="get:\checkout-sessions\(id):mulesoft-gemini-agentic-eapi-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:variables>
+                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="Get SessionId Impl" doc:id="7c415936-5f86-4e06-806e-7740ec790d35" name="GET-checkout-session-impl" />
+        <logger level="INFO" doc:name="Logger" doc:id="435a9e0c-c344-4886-9f0b-17ac40955d31" message="#[payload&#93;" />
+    </flow> [STUDIO] -->
+    <flow name="post:\checkout-sessions:application\json:mulesoft-gemini-agentic-eapi-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <flow-ref doc:name="Post SessionId Impl" doc:id="828818de-9274-4702-90cd-a2ca7c9d83c0" name="POST-checkout-session-impl" />
+        <logger level="INFO" doc:name="Log Response Payload" doc:id="a4959c83-79ed-4907-8cd8-2e9db705bb93" message="#[payload]" />
+    </flow>
+    <flow name="post:\carts:application\json:mulesoft-gemini-agentic-eapi-config">
+        <logger level="INFO" message="post:\carts:application\json:mulesoft-gemini-agentic-eapi-config" />
+		<flow-ref doc:name="PostCart SubFlow" doc:id="77ce481f-b0fb-451a-b454-fa3bd80bd9f5" name="POST-carts-impl"/>
+		<logger level="INFO" doc:name="Log Response Payload" doc:id="8e7f915a-83ec-43ea-be26-a9d48d26b079" message="#[payload]" />
+    </flow>
+    <flow name="put:\carts\(cartId):application\json:mulesoft-gemini-agentic-eapi-config">
+        <logger level="INFO" doc:name="Logger" doc:id="10a67530-e963-4405-9f42-5c8ff97f7921" message="put:\carts:application\json:mulesoft-gemini-agentic-eapi-config" />
+		<ee:transform doc:name="Transform Message">
+            <ee:variables>
+                <ee:set-variable variableName="cartId">attributes.uriParams.'cartId'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="PutCart SubFlow" doc:id="94b66188-3de5-4cbd-8e36-1a6801c79975" name="PUT-carts-impl"/>
+		<logger level="INFO" message="put:\carts\(cartId):application\json:mulesoft-gemini-agentic-eapi-config" doc:name="Log Response Payload"/>
+    </flow>
+    <flow name="get:\carts\(cartId):mulesoft-gemini-agentic-eapi-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:variables>
+                <ee:set-variable variableName="cartId">attributes.uriParams.'cartId'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="get:\carts\(cartId):mulesoft-gemini-agentic-eapi-config" />
+        <flow-ref doc:name="Get Cart SubFlow" doc:id="88a378ea-1f43-4fb3-ad66-9bf471bbb266" name="GET-carts-impl" />
+        <logger level="INFO" doc:name="Log Response Payload" doc:id="68418d3d-1b0d-4b52-91d0-313139eb0cf2" message="#[payload]" />
     </flow>
     <flow name="get:\checkout-sessions\(id):mulesoft-gemini-agentic-eapi-config">
         <ee:transform doc:name="Transform Message">
@@ -141,19 +100,16 @@ output application/json
                 <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-		<flow-ref doc:name="Get SessionId Impl" doc:id="7c415936-5f86-4e06-806e-7740ec790d35" name="mulesoft-checkout-impl-get-checkout-sessions"/>
-    </flow>
-    <flow name="post:\checkout-sessions:application\json:mulesoft-gemini-agentic-eapi-config">
         <ee:transform doc:name="Transform Message">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
-  sessionId: "123"
+  id: "123",
+  status: "active"
 } as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<flow-ref doc:name="Post SessionId Impl" doc:id="828818de-9274-4702-90cd-a2ca7c9d83c0" name="mulesoft-checkout-impl-post-checkout-sessions"/>
     </flow>
 </mule>

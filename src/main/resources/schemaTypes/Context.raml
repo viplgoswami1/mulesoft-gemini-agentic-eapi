@@ -1,0 +1,25 @@
+#%RAML 1.0 DataType
+
+description: Geographic and locale context used for tax calculation and pricing
+type: object
+properties:
+  address_country:
+    type: string
+    required: true
+    description: Country code or name for context (e.g. USA)
+    example: "USA"
+  address_region:
+    type: string
+    required: false
+    description: State or region for context (e.g. California)
+    example: "California"
+  postal_code:
+    type: string
+    required: false
+    description: Postal/ZIP code for context
+    example: "94551"
+  currenty:
+    type: string
+    required: false
+    description: Currenty
+    example: "USD"

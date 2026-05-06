@@ -1,0 +1,13 @@
+#%RAML 1.0 DataType
+displayName: LineItem
+description: A single product line entry in the cart
+type: object
+properties:
+  item:
+    type: !include Item.raml
+    description: Reference to the product being added
+  quantity:
+    type: integer
+    description: Number of units to add to the cart
+    minimum: 1
+    example: 1
