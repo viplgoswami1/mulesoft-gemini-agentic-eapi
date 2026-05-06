@@ -7,7 +7,36 @@
 
 ![](https://static.scarf.sh/a.png?x-pxid=97fb6777-7e13-4701-9321-8a66692c0002)
 
-A **MuleSoft Experience API** that integrates with Google Gemini AI for Native Checkout Functionality. This eapi is direct plug-and-play app to enable UCP for any of the eCommerce application, enabling agentic AI capabilities within the Anypoint Platform ecosystem.
+A **MuleSoft Experience API** that integrates with Google Gemini AI for Native Checkout
+Functionality. This EAPI is a direct plug-and-play app to enable UCP for any eCommerce
+application, enabling agentic AI capabilities within the Anypoint Platform ecosystem.
+
+---
+
+## Architecture
+
+This project follows MuleSoft's **API-led connectivity** pattern across three layers:
+
+```
+Client Request
+      ↓
+mulesoft-gemini-agentic-eapi          ← Experience API (this repo)
+      ↓
+mulesoft-gemini-agentic-papi          ← Process API (orchestration layer)
+      ↓               ↓
+sap-gemini-agentic-cart-sapi    sap-gemini-agentic-checkout-sapi
+(Cart System API)               (Checkout System API)
+      ↓               ↓
+         SAP CCv2 (Merchant Commerce Engine)
+```
+
+| Layer | Repository | Role |
+|-------|------------|------|
+| **EAPI** | [mulesoft-gemini-agentic-eapi](https://github.com/viplgoswami1/mulesoft-gemini-agentic-eapi) | Client-facing experience, Gemini AI integration |
+| **PAPI** | [mulesoft-gemini-agentic-papi](https://github.com/viplgoswami1/mulesoft-gemini-agentic-papi) | Business logic orchestration, routing |
+| **Cart SAPI** | `sap-gemini-agentic-cart-sapi` *(coming soon)* | SAP cart operations |
+| **Checkout SAPI** | `sap-gemini-agentic-checkout-sapi` *(coming soon)* | SAP checkout operations |
+| **SAP CCv2** | SAP Commerce Cloud v2 (Merchant Commerce Engine) | Backend commerce engine |
 
 ---
 
@@ -18,21 +47,8 @@ Google's Gemini AI, enabling:
 
 - **Agentic workflows** — AI-driven decision making within Mule flows
 - **Natural language processing** — Process unstructured data with Gemini
-- **Enterprise integration** — Connect Gemini AI to any backend system via MuleSoft
-
----
-
-## Architecture
-
-```
-Client Request
-      ↓
-MuleSoft Gemini Agentic EAPI
-      ↓
-Google Gemini AI API
-      ↓
-Response with AI-generated insights
-```
+- **UCP Native Checkout** — Enable Universal Cart Protocol for any eCommerce app
+- **Enterprise integration** — Connect Gemini AI to SAP and any backend via MuleSoft
 
 ---
 
@@ -45,6 +61,7 @@ Response with AI-generated insights
 - Java 17
 - Google Cloud account with Gemini API access
 - Google Gemini API Key
+- [mulesoft-gemini-agentic-papi](https://github.com/viplgoswami1/mulesoft-gemini-agentic-papi) running locally or deployed
 
 ### Installation
 
@@ -59,13 +76,15 @@ cd mulesoft-gemini-agentic-eapi
    - Select the cloned folder
    - Click **Finish**
 
-3. Configure your credentials in `src/main/resources/config.yaml`:
+3. Configure credentials in `src/main/resources/config.yaml`:
 ```yaml
 gemini:
   api:
     key: "YOUR_GEMINI_API_KEY"
     url: "https://generativelanguage.googleapis.com/v1beta"
     model: "gemini-pro"
+papi:
+  url: "http://localhost:8082"
 ```
 
 ---
@@ -86,6 +105,7 @@ gemini:
 | `GEMINI_API_KEY` | Google Gemini API key | ✅ |
 | `GEMINI_MODEL` | Model name (default: `gemini-pro`) | ❌ |
 | `GEMINI_MAX_TOKENS` | Max response tokens (default: 1024) | ❌ |
+| `PAPI_URL` | URL of mulesoft-gemini-agentic-papi | ✅ |
 
 ---
 
@@ -114,18 +134,22 @@ Generate AI content using Gemini.
 }
 ```
 
-### POST /gemini/agent/execute
+### POST /cart
 
-Execute an agentic workflow with multi-step reasoning.
+Create a new cart session (proxied to PAPI → Cart SAPI).
 
 **Request:**
 ```json
 {
-  "task": "Analyze product catalog and suggest optimizations",
-  "data": { ... },
-  "steps": ["analyze", "recommend", "format"]
+  "line_items": [{ "item": { "id": "WH1000XM5-BLK" }, "quantity": 1 }],
+  "context": { "address_country": "US", "address_region": "CA", "postal_code": "94509", "currency": "USD" },
+  "signals": { "dev.ucp.buyer_ip": "203.0.113.42" }
 }
 ```
+
+### PUT /cart/{cartId}
+
+Update an existing cart (proxied to PAPI → Cart SAPI).
 
 ---
 
@@ -134,7 +158,7 @@ Execute an agentic workflow with multi-step reasoning.
 ```xml
 <flow name="geminiAgenticFlow">
     <http:listener path="/gemini/generate" method="POST"/>
-    
+
     <transform:message>
         <transform:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -147,25 +171,30 @@ output application/json
     }]
 }]]></transform:set-payload>
     </transform:message>
-    
-    <http:request 
+
+    <http:request
         url="https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
         method="POST">
         <http:headers>
             <http:header key="x-goog-api-key" value="${gemini.api.key}"/>
         </http:headers>
     </http:request>
-    
+
     <logger message="#[payload]"/>
 </flow>
 ```
 
 ---
 
-## Also See
+## Related Repositories
 
-- 🔌 [Google Merchant Center MuleSoft Connector](https://github.com/viplgoswami1/google-merchant-center-connector) — Custom connector for Google Shopping API
-- 📦 [Maven Central](https://central.sonatype.com/artifact/io.github.viplgoswami1/google-merchant-center-mule-connector) — Published connector
+| Repo | Description |
+|------|-------------|
+| [mulesoft-gemini-agentic-papi](https://github.com/viplgoswami1/mulesoft-gemini-agentic-papi) | Process API — orchestrates Cart and Checkout SAPIs |
+| `sap-gemini-agentic-cart-sapi` *(coming soon)* | System API — SAP cart operations |
+| `sap-gemini-agentic-checkout-sapi` *(coming soon)* | System API — SAP checkout operations |
+| [google-merchant-center-connector](https://github.com/viplgoswami1/google-merchant-center-connector) | Custom MuleSoft connector for Google Shopping API |
+| [Maven Central](https://central.sonatype.com/artifact/io.github.viplgoswami1/google-merchant-center-mule-connector) | Published connector |
 
 ---
 
